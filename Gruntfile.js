@@ -8,7 +8,7 @@ module.exports = function(grunt) {
   ];
 
   var jadeWatchFileArr = [
-    './src/views/html/**/*.jade'
+    './src/views/**/*.jade'
   ];
 
   var stylusWatchFileArr = [
@@ -199,7 +199,11 @@ module.exports = function(grunt) {
       dev: {
         options: {
           pretty: true,
-          data: { cacheKey: (new Date()).getTime() }
+          data: {
+            cacheKey: (new Date()).getTime(),
+            env: 'dev',
+            baseUrl: '/u/38377178'
+          }
         },
         files: [
           {
@@ -214,7 +218,7 @@ module.exports = function(grunt) {
       prod: {
         options: {
           pretty: false,
-          data: { cacheKey: (new Date()).getTime() }
+          data: { cacheKey: (new Date()).getTime(), env: 'prod' }
         },
         files: [
           {
@@ -259,7 +263,7 @@ module.exports = function(grunt) {
     },
     ngtemplates: {
       app: {
-        cwd: './dist/ng/partials',
+        cwd: './dist/ng/templates',
         src: '**/*.html',
         dest: './dist/js/ng/ng.templates.min.js',
         options:    {
