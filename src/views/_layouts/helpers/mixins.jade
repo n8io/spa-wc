@@ -1,0 +1,13 @@
+mixin body-title(_title, _desc)
+  if block
+    block
+  else
+    h1 #{_title}
+    if (_desc)
+      +body-description(_desc)
+mixin body-description(_desc)
+  hr
+  if block
+    block
+  else
+    p #{_desc}
