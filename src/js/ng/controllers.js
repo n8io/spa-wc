@@ -5,7 +5,6 @@
    * @ngInject
    */
   function Master_Controller($timeout){
-    var vm = this;
     $timeout(function(){
       console.table([
         {
@@ -17,17 +16,13 @@
           value: 13
         }
       ]);
-    },1000);
+    }, 1000);
   }
 
   /**
    * @ngInject
    */
   function Child_Controller($log){
-    var vm = this;
-
-    vm.isLoading = 'Shit yeah';
-
     $log.log('I logz it.');
   }
 
