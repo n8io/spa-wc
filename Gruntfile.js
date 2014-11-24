@@ -15,7 +15,7 @@ module.exports = function(grunt) {
       './src/server/css/**/*.styl'
     ],
     stylusSrcFileArr: [
-      './src/server/css/_build.styl'
+      './src/server/css/style.styl'
     ],
     cssSrcFileArr: [
       './src/client/css/style.min.css'

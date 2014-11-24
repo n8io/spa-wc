@@ -1,3 +1,3 @@
 $(function() {
-  // comment
+  // Add document.ready code here
 });

@@ -9,16 +9,24 @@
   function routeConfiguration($routeProvider, $locationProvider) {
     $routeProvider
       .when('/', {
-        templateUrl: 'a'
+        templateUrl: 'a',
+        controller: 'Partials_A_Controller',
+        controllerAs: 'pc'
       })
       .when('/a', {
-        templateUrl: 'a'
+        templateUrl: 'a',
+        controller: 'Partials_A_Controller',
+        controllerAs: 'pc'
       })
       .when('/b', {
-        templateUrl: 'b'
+        templateUrl: 'b',
+        controller: 'Partials_B_Controller',
+        controllerAs: 'pc'
       })
       .when('/c', {
-        templateUrl: 'c'
+        templateUrl: 'c',
+        controller: 'Partials_C_Controller',
+        controllerAs: 'pc'
       })
       .otherwise({
         redirectTo: '/'
