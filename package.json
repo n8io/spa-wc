@@ -4,11 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ./src/server/app.js",
+    "postinstall": "./node_modules/grunt-cli/bin/grunt",
+    "devstart": "./node_modules/.bin/nodemon ./src/server/app.js"
   },
   "author": "",
   "license": "ISC",
-  "dependencies": {
+  "devDependencies": {
     "grunt": "~0.4.1",
     "grunt-angular-templates": "^0.5.7",
     "grunt-cli": "^0.1.13",
@@ -27,6 +30,13 @@
     "grunt-text-replace": "^0.3.12",
     "load-grunt-tasks": "^1.0.0",
     "moment": "^2.8.4",
-    "nib": "^1.0.4"
+    "nib": "^1.0.4",
+    "nodemon": "^1.2.1"
+  },
+  "dependencies": {
+    "compression": "^1.2.1",
+    "express": "^4.10.3",
+    "serve-favicon": "^2.1.7",
+    "serve-static": "^1.7.1"
   }
 }

@@ -1,51 +1,46 @@
 var moment = require('moment');
 module.exports = function(grunt) {
   require('load-grunt-tasks')(grunt);
-  var timestamp = moment().format('ddd ll HH:mmZZ') + ' [ ' + moment().format('x') + ' ]';
+  var timestampMs = (new Date()).getTime();
+  var timestamp = moment().format('ddd ll HH:mmZZ') + ' [ ' + timestampMs + ' ]';
 
-  var jadeSrcFileArr = [
-    '**/*.jade'
-  ];
-
-  var jadeWatchFileArr = [
-    './src/views/**/*.jade'
-  ];
-
-  var stylusWatchFileArr = [
-    './src/css/**/*.styl'
-  ];
-
-  var stylusSrcFileArr = [
-    './src/css/_build.styl'
-  ];
-
-  var cssSrcFileArr = [
-    './dist/css/style.min.css'
-  ];
-
-  var jsWatchFileArr = [
-    './src/js/**/*.js'
-  ];
-
-  var jsNgSrcFileArr = [
-    './src/js/ng/app.js',
-    './src/js/ng/constants.js',
-    './src/js/ng/values.js',
-    './src/js/ng/config.js',
-    './src/js/ng/filters.js',
-    './src/js/ng/services.js',
-    './src/js/ng/factories.js',
-    './src/js/ng/controllers.js',
-    './src/js/ng/directives.js',
-  ];
-
-  var jsSrcFileArr = [
-    './src/js/script.js'
-  ];
-
-  var staticsWatchFileArr = [
-    './src/statics/**/*'
-  ];
+  var setup = {
+    jadeSrcFileArr: [
+      '**/*.jade'
+    ],
+    jadeWatchFileArr: [
+      './src/server/views/**/*.jade'
+    ],
+    stylusWatchFileArr: [
+      './src/server/css/**/*.styl'
+    ],
+    stylusSrcFileArr: [
+      './src/server/css/_build.styl'
+    ],
+    cssSrcFileArr: [
+      './src/client/css/style.min.css'
+    ],
+    jsWatchFileArr: [
+      './src/server/js/**/*.js'
+    ],
+    jsNgSrcFileArr: [
+      './src/server/js/ng/app.js',
+      './src/server/js/ng/constants.js',
+      './src/server/js/ng/values.js',
+      './src/server/js/ng/config.js',
+      './src/server/js/ng/filters.js',
+      './src/server/js/ng/services.js',
+      './src/server/js/ng/factories.js',
+      './src/server/js/ng/controllers.js',
+      './src/server/js/ng/directives.js',
+    ],
+    jsSrcFileArr: [
+      './src/server/js/script.js'
+    ],
+    staticsWatchFileArr: [
+      './src/server/statics/**/*'
+    ]
+  };
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
@@ -57,7 +52,7 @@ module.exports = function(grunt) {
             cwd: '.' //Up to proj root
           }
         },
-        command: ['rm -rf ./dist','rm -rf ./tmp'].join(' && ')
+        command: ['rm -rf ./src/client','rm -rf ./tmp'].join(' && ')
       },
       cleanNg: {
         options: {
@@ -67,10 +62,10 @@ module.exports = function(grunt) {
           }
         },
         command: [
-          'mv dist/js/ng/ng.min.js dist/js/ng.min.js',
-          'rm -rf dist/js/ng/*.js',
-          'rm -rf dist/ng',
-          'mv dist/js/ng.min.js dist/js/ng/ng.min.js'
+          'mv src/client/js/ng/ng.min.js src/client/js/ng.min.js',
+          'rm -rf src/client/js/ng/*.js',
+          'rm -rf src/client/ng',
+          'mv src/client/js/ng.min.js src/client/js/ng/ng.min.js'
         ].join(' && ')
       }
     },
@@ -79,9 +74,9 @@ module.exports = function(grunt) {
         files: [
           {
             expand: true,
-            cwd: './src/statics',
+            cwd: './src/server/statics',
             src: '**',
-            dest: 'dist',
+            dest: 'src/client',
             flatten: false
           }
         ]
@@ -90,9 +85,9 @@ module.exports = function(grunt) {
         files: [
           {
             expand: true,
-            cwd: './src/js',
+            cwd: './src/server/js',
             src: '**',
-            dest: './dist/js',
+            dest: './src/client/js',
             ext: '.min.js',
             flatten: false,
             filter: 'isFile'
@@ -102,7 +97,7 @@ module.exports = function(grunt) {
     },
     jshint: {
       all: {
-        src: ['./src/js/**/*.js'],
+        src: ['./src/server/js/**/*.js'],
         options: {
           jshintrc: true
         }
@@ -117,7 +112,7 @@ module.exports = function(grunt) {
           beautify: true
         },
         files: {
-          './dist/js/script.min.js': jsSrcFileArr
+          './src/client/js/script.min.js': setup.jsSrcFileArr
         }
       },
       prod: {
@@ -127,7 +122,7 @@ module.exports = function(grunt) {
           banner : '/* Minified via UglifyJs ' + timestamp + ' */\n'
         },
         files: {
-          './dist/js/script.min.js': jsSrcFileArr
+          './src/client/js/script.min.js': setup.jsSrcFileArr
         }
       },
       devNg: {
@@ -135,13 +130,16 @@ module.exports = function(grunt) {
           mangle: false,
           compress: false,
           preserveComments: 'some',
-          beautify: true
+          beautify: {
+            beautify: true,
+            indent_level: 2
+          }
         },
         files: [{
           expand: true,
-          cwd: './dist/js/ng',
+          cwd: './src/client/js/ng',
           src: ['**/*.js'],
-          dest: './dist/js/ng',
+          dest: './src/client/js/ng',
           ext: '.min.js'
         }]
       },
@@ -152,7 +150,7 @@ module.exports = function(grunt) {
           banner : '/* Minified via UglifyJs ' + timestamp + ' */\n'
         },
         files: {
-          './dist/js/ng/ng.min.js': ['./dist/js/ng/*.min.js']
+          './src/client/js/ng/ng.min.js': ['./src/client/js/ng/*.min.js']
         }
       },
       prodNg: {
@@ -163,9 +161,9 @@ module.exports = function(grunt) {
         },
         files: [{
           expand: true,
-          cwd: './dist/js/ng',
+          cwd: './src/client/js/ng',
           src: '**/*.js',
-          dest: './dist/js/ng',
+          dest: './src/client/js/ng',
           ext: '.min.js'
         }]
       }
@@ -179,7 +177,7 @@ module.exports = function(grunt) {
           compress: false
         },
         files: {
-          './dist/css/style.min.css': stylusSrcFileArr
+          './src/client/css/style.min.css': setup.stylusSrcFileArr
         }
       },
       prod: {
@@ -191,7 +189,7 @@ module.exports = function(grunt) {
           banner: '/* Minified via Stylus on ' + timestamp + '*/\n'
         },
         files: {
-          './dist/css/style.min.css': stylusSrcFileArr
+          './src/client/css/style.min.css': setup.stylusSrcFileArr
         }
       }
     },
@@ -200,17 +198,16 @@ module.exports = function(grunt) {
         options: {
           pretty: true,
           data: {
-            cacheKey: (new Date()).getTime(),
-            env: 'dev',
-            baseUrl: '/u/38377178'
+            cacheKey: timestampMs,
+            env: 'dev'
           }
         },
         files: [
           {
             expand: true,
-            cwd: './src/views/html',
-            src: jadeSrcFileArr,
-            dest: 'dist/',
+            cwd: './src/server/views/html',
+            src: setup.jadeSrcFileArr,
+            dest: 'src/client/',
             ext: '.html'
           }
         ]
@@ -218,14 +215,17 @@ module.exports = function(grunt) {
       prod: {
         options: {
           pretty: false,
-          data: { cacheKey: (new Date()).getTime(), env: 'prod' }
+          data: { 
+            cacheKey: timestampMs, 
+            env: 'prod'
+          }
         },
         files: [
           {
             expand: true,
-            cwd: './src/views/html',
-            src: jadeSrcFileArr,
-            dest: 'dist/',
+            cwd: './src/server/views/html',
+            src: setup.jadeSrcFileArr,
+            dest: 'src/client/',
             ext: '.html'
           }
         ]
@@ -238,14 +238,14 @@ module.exports = function(grunt) {
           banner : '/* Minified via CssMin ' + timestamp + ' */'
         },
         files: {
-          './dist/css/style.min.css': cssSrcFileArr
+          './src/client/css/style.min.css': setup.cssSrcFileArr
         }
       }
     },
     concat: {
       dev: {
-        src: jsNgSrcFileArr,
-        dest: './dist/js/ng/ng.min.js'
+        src: setup.jsNgSrcFileArr,
+        dest: './src/client/js/ng/ng.min.js'
       }
     },
     ngAnnotate: {
@@ -253,9 +253,9 @@ module.exports = function(grunt) {
         files: [
           {
             expand: true,
-            cwd: './dist/js/ng',
+            cwd: './src/client/js/ng',
             src: '**/*.min.js',
-            dest: './dist/js/ng',
+            dest: './src/client/js/ng',
             ext: '.min.js'
           }
         ]
@@ -263,10 +263,30 @@ module.exports = function(grunt) {
     },
     ngtemplates: {
       app: {
-        cwd: './dist/ng/templates',
+        cwd: './src/client/ng/templates',
         src: '**/*.html',
-        dest: './dist/js/ng/ng.templates.min.js',
+        dest: './src/client/js/ng/ng.tmpl.min.js',
         options:    {
+          url: function(url) { return url.replace('.html', ''); },
+          bootstrap:  function(module, script) {
+            var jsLines = script.split('\n');
+            jsLines.shift(); //Pop off the extra 'use strict' line
+            var lines = [
+              '"use strict";',
+              'angular',
+              '  .module("' + module + '")',
+              '  .run(preloadTemplates)',
+              '  ;',
+              '',
+              'function preloadTemplates($log, $templateCache){',
+              '  ' + jsLines.join('\n'),
+              '}',
+              'preloadTemplates.$inject = ["$log", "$templateCache"];',
+            ];
+              
+            var js = lines.join('\n');
+            return '(function(){\n  ' + js + '\n})();';
+          },
           htmlmin:  {
             collapseWhitespace:             true,
             removeComments:                 true,
@@ -278,8 +298,11 @@ module.exports = function(grunt) {
       }
     },
     watch: {
+      options: {
+        livereload: true
+      },
       scripts: {
-        files: jsWatchFileArr,
+        files: setup.jsWatchFileArr,
         tasks: ['dev'],
         options: {
           nospawn: false,
@@ -287,7 +310,7 @@ module.exports = function(grunt) {
         }
       },
       css: {
-        files: stylusWatchFileArr,
+        files: setup.stylusWatchFileArr,
         tasks: ['dev'],
         options: {
           nospawn: false,
@@ -295,7 +318,7 @@ module.exports = function(grunt) {
         }
       },
       jade: {
-        files: jadeWatchFileArr,
+        files: setup.jadeWatchFileArr,
         tasks: ['dev'],
         options: {
           nospawn: false,
@@ -303,7 +326,7 @@ module.exports = function(grunt) {
         }
       },
       statics: {
-        files: staticsWatchFileArr,
+        files: setup.staticsWatchFileArr,
         tasks: ['dev'],
         options: {
           nospawn: false,
@@ -322,21 +345,21 @@ module.exports = function(grunt) {
     'shell:cleanNg'
   ]);
 
-  // Dev build (expanded css and js)
+  // Dev build
   grunt.registerTask('dev', [
     'preprocess',
     'jade:dev',
-    'ngtemplates',
     'copy',
     'stylus:dev',
     'concat:dev',
     'jshint',
     'ngAnnotate',
+    'ngtemplates',
     'uglify:devNg',
     'postprocess'
   ]);
 
-  // Alias for default task
+  // Alias for Prod build
   grunt.registerTask('prod', [
     'default'
   ]);
@@ -347,15 +370,15 @@ module.exports = function(grunt) {
     'watch'
   ]);
 
-  // Default task(s).
+  // Prod build (default task)
   grunt.registerTask('default', [
     'preprocess',
     'jade:prod',
-    'ngtemplates',
     'copy',
     'stylus:prod',
     'cssmin:prod',
     'ngAnnotate',
+    'ngtemplates',
     'uglify:prod',
     'uglify:prodNg',
     'uglify:prodNgCommon',
