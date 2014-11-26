@@ -8,12 +8,11 @@ html(lang="en",data-ng-app='app',data-ng-strict-di)
     include partials/header-meta
     include partials/header-stylesheets
     include partials/header-scripts
-    include partials/header-polymer
-  body(data-ng-controller='Master_Controller as mc')
+  body(data-ng-controller='Master_Controller as mc', unresolved)
     .container-fluid
       .row
         include partials/body-ng-controller
-        .col-md-12(data-ng-controller='#{controller_name ? controller_name + " as bc" : ""}')
+        +body-ng-controller
           include partials/body-header
           include partials/body-title
           include partials/body-content

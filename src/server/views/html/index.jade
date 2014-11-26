@@ -3,19 +3,12 @@ extends ../_layouts/master
 append header-meta
   base(href='/')
 
-append body-polymer-elements
-  link(rel='import', href='#{locals.baseUrl?baseUrl:""}/polymer-elements/elements-csp.html?noc=#{cacheKey}')
-
-append body-scripts
-  script(src='#{locals.baseUrl?baseUrl:""}/js/ng/home/config.min.js?noc=#{cacheKey}')
-  script(src='#{locals.baseUrl?baseUrl:""}/js/ng/home/controllers.min.js?noc=#{cacheKey}')
+append body-ng-controller
+  - controller_name = 'Body_Controller';
 
 append body-title
   +body-title('Web components with Polymer.js', 'A \'Hello World!\' attempt at web components using polymer.')
 
-append body-ng-controller
-  - controller_name = 'Body_Controller';
-  
 append body-content
   .row
     .col-md-12
@@ -45,3 +38,10 @@ append body-content
           tr
             td
               editable-color-picker(owner='Scott', color='blue')
+              
+append body-scripts
+  script(src='#{locals.baseUrl?baseUrl:""}/js/ng/home/config.min.js?noc=#{cacheKey}')
+  script(src='#{locals.baseUrl?baseUrl:""}/js/ng/home/controllers.min.js?noc=#{cacheKey}')
+  
+append body-polymer-elements
+  link(rel='import', href='#{locals.baseUrl?baseUrl:""}/polymer-elements/elements-csp.html?noc=#{cacheKey}')

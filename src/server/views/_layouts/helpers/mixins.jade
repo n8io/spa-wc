@@ -14,3 +14,10 @@ mixin body-description(_desc)
 mixin body-controller(_cname)
   if (_cname)
     - controller_name = _cname;
+mixin body-ng-controller
+  if (controller_name)
+    .col-md-12(data-ng-controller='#{controller_name} as bc')
+      block
+  else
+    .col-md-12
+      block
