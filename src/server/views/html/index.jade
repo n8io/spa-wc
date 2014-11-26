@@ -8,9 +8,11 @@ append body-scripts
   script(src='#{locals.baseUrl?baseUrl:""}/js/ng/home/controllers.min.js?noc=#{cacheKey}')
 
 append body-title
-  +body-title('Page title', 'Lorem ipsum yatta')
-append body-controller
+  +body-title('Page title', 'Lorem ipsum yatta yatta kbai')
+
+append body-ng-controller
   - controller_name = 'Body_Controller';
+  
 append body-content
   .row
     .col-md-12

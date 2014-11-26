@@ -10,7 +10,7 @@ html(lang="en",data-ng-app='app',data-ng-strict-di)
   body(data-ng-controller='Master_Controller as mc')
     .container-fluid
       .row
-        block body-controller
+        include partials/body-ng-controller
         .col-md-12(data-ng-controller='#{controller_name ? controller_name + " as bc" : ""}')
           include partials/body-header
           include partials/body-title
