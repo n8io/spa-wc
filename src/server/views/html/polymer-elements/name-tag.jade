@@ -1,0 +1,13 @@
+polymer-element(name='name-tag')
+  template
+    span I'm a
+    b  name-tag
+    span  element.
+    span  This is 
+    b {{owner}}
+    span 's name-tag element.
+  script.
+    Polymer({
+      owner: 'Daniel'
+    });
+    

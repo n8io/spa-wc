@@ -1,0 +1,13 @@
+polymer-element(name='color-picker',attributes='owner color')
+  template
+    span This is
+    span  {{owner}}'s 
+    b  color-picker
+    span  element. 
+    span  He likes the color:
+    span(style='color: {{color}}')  {{color}}.
+  script.
+    Polymer({
+      color: 'orange',
+      owner: 'Daniel'
+    });

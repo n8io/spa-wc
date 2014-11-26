@@ -11,6 +11,9 @@ module.exports = function(grunt) {
     jadeWatchFileArr: [
       './src/server/views/**/*.jade'
     ],
+    polymerSrcFileArr: [
+      './src/client/polymer-elements/*.html'
+    ],
     stylusWatchFileArr: [
       './src/server/css/**/*.styl'
     ],
@@ -67,6 +70,21 @@ module.exports = function(grunt) {
           'rm -rf src/client/ng',
           'mv src/client/js/ng.min.js src/client/js/ng/ng.min.js'
         ].join(' && ')
+      },
+      cleanPolymer: {
+        options: {
+          stdout: true,
+          execOptions: {
+            cwd: '.' //Up to proj root
+          }
+        },
+        command: [
+          'mv src/client/polymer-elements/elements-csp.html src/client/elements-csp.html',
+          'mv src/client/polymer-elements/elements-csp.js src/client/elements-csp.js',
+          'rm -rf src/client/polymer-elements/*',
+          'mv src/client/elements-csp.html src/client/polymer-elements/elements-csp.html',
+          'mv src/client/elements-csp.js src/client/polymer-elements/elements-csp.js'
+        ].join(' && ')
       }
     },
     copy: {
@@ -74,9 +92,9 @@ module.exports = function(grunt) {
         files: [
           {
             expand: true,
-            cwd: './src/server/statics',
+            cwd: 'src/server/statics',
             src: '**',
-            dest: 'src/client',
+            dest: 'src/client/statics',
             flatten: false
           }
         ]
@@ -166,6 +184,30 @@ module.exports = function(grunt) {
           dest: './src/client/js/ng',
           ext: '.min.js'
         }]
+      },
+      devPolymer: {
+        options: {
+          mangle: false,
+          compress: false,
+          preserveComments: 'some',
+          beautify: {
+            beautify: true,
+            indent_level: 2
+          }
+        },
+        files: {
+          './src/client/polymer-elements/elements-csp.js': './src/client/polymer-elements/elements-csp.js'
+        }
+      },
+      prodPolymer: {
+        options: {
+          mangle: true,
+          compress: true,
+          banner : '/* Minified via UglifyJs ' + timestamp + ' */\n'
+        },
+        files: {
+          './src/client/polymer-elements/elements-csp.js': './src/client/polymer-elements/elements-csp.js'
+        }
       }
     },
     stylus: {
@@ -231,6 +273,16 @@ module.exports = function(grunt) {
         ]
       }
     },
+    vulcanize: {
+      dev: {
+        options: {
+          csp:  true
+        },
+        files: {
+          './src/client/polymer-elements/elements-csp.html': './src/client/polymer-elements/elements-csp.html'
+        }
+      }
+    },
     cssmin: {
       prod: {
         options:{
@@ -246,6 +298,22 @@ module.exports = function(grunt) {
       dev: {
         src: setup.jsNgSrcFileArr,
         dest: './src/client/js/ng/ng.min.js'
+      },
+      devPolymer: {
+        src: setup.polymerSrcFileArr,
+        dest: './src/client/polymer-elements/elements-csp.html'
+      }
+    },
+    htmlmin: {
+      prod: {
+        options: {
+          removeComments: true,
+          minifyJS: true,
+          minifyCSS: true
+        },
+        files: {
+          './src/client/polymer-elements/elements-csp.html': './src/client/polymer-elements/elements-csp.html'
+        }
       }
     },
     ngAnnotate: {
@@ -342,7 +410,8 @@ module.exports = function(grunt) {
   ]);
 
   grunt.registerTask('postprocess', [
-    'shell:cleanNg'
+    'shell:cleanNg',
+    'shell:cleanPolymer'
   ]);
 
   // Dev build
@@ -352,10 +421,13 @@ module.exports = function(grunt) {
     'copy',
     'stylus:dev',
     'concat:dev',
+    'concat:devPolymer',
+    'vulcanize:dev',
     'jshint',
     'ngAnnotate',
     'ngtemplates',
     'uglify:devNg',
+    'uglify:devPolymer',
     'postprocess'
   ]);
 
@@ -375,6 +447,9 @@ module.exports = function(grunt) {
     'preprocess',
     'jade:prod',
     'copy',
+    'concat:devPolymer',
+    'vulcanize:dev',
+    'htmlmin:prod',
     'stylus:prod',
     'cssmin:prod',
     'ngAnnotate',
@@ -382,6 +457,7 @@ module.exports = function(grunt) {
     'uglify:prod',
     'uglify:prodNg',
     'uglify:prodNgCommon',
+    'uglify:prodPolymer',
     'postprocess'
   ]);
 };

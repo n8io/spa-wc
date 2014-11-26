@@ -1,12 +1,14 @@
 include helpers/variables
 include helpers/mixins
-doctype
+
+doctype html
 html(lang="en",data-ng-app='app',data-ng-strict-di)
   head
     include partials/header-title
     include partials/header-meta
     include partials/header-stylesheets
     include partials/header-scripts
+    include partials/header-polymer
   body(data-ng-controller='Master_Controller as mc')
     .container-fluid
       .row
@@ -17,3 +19,4 @@ html(lang="en",data-ng-app='app',data-ng-strict-di)
           include partials/body-content
           include partials/body-footer
     include partials/body-scripts
+    include partials/body-polymer-elements

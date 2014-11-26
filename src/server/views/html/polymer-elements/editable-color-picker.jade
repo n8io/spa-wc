@@ -1,0 +1,22 @@
+polymer-element(name='editable-color-picker',attributes='owner color')
+  template
+    span This is
+    span  {{owner}}'s 
+    b  editable-color-picker
+    span  element. 
+    span  He likes the color:
+    span(style='color: {{color}}')  {{color}}.
+    div
+      a(href='javascript:;',on-click='{{setFocus}}') Set focus to the text input
+    div
+      input#name(value='{{owner}}',placeholder='Your name here...')
+  script.
+    Polymer({
+      color: 'orange',
+      owner: 'Daniel',
+      setFocus: function setFocus(){
+        var self = this;
+        
+        this.$.name.focus();
+      }
+    });

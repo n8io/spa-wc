@@ -3,12 +3,15 @@ extends ../_layouts/master
 append header-meta
   base(href='/')
 
+append body-polymer-elements
+  link(rel='import', href='#{locals.baseUrl?baseUrl:""}/polymer-elements/elements-csp.html?noc=#{cacheKey}')
+
 append body-scripts
   script(src='#{locals.baseUrl?baseUrl:""}/js/ng/home/config.min.js?noc=#{cacheKey}')
   script(src='#{locals.baseUrl?baseUrl:""}/js/ng/home/controllers.min.js?noc=#{cacheKey}')
 
 append body-title
-  +body-title('Page title', 'Lorem ipsum yatta yatta kbai')
+  +body-title('Web components with Polymer.js', 'A \'Hello World!\' attempt at web components using polymer.')
 
 append body-ng-controller
   - controller_name = 'Body_Controller';
@@ -16,9 +19,29 @@ append body-ng-controller
 append body-content
   .row
     .col-md-12
-      .btn-group
-        a(href='/a', active-link, active-link-alt-paths='/').text-uppercase.btn.btn-default a
-        a(href='/b', active-link).text-uppercase.btn.btn-default b
-        a(href='/c', active-link).text-uppercase.btn.btn-default c
-      hr
-      .div(data-ng-view)
+      table.table.table-striped.table-condensed.table-bordered.width-100pct
+        tbody
+          tr
+            td
+              my-element
+          tr
+            td
+              proto-element
+          tr
+            td
+              ready-element
+          tr
+            td
+              name-tag
+          tr
+            td
+              fav-color
+          tr
+            td
+              age-slider
+          tr
+            td
+              color-picker(owner='Scott', color='blue')
+          tr
+            td
+              editable-color-picker(owner='Scott', color='blue')

@@ -1,0 +1,27 @@
+polymer-element(name='age-slider')
+  template
+    span This is
+    span  {{name}}'s 
+    b  age-slider
+    span  element. He is
+    b  {{age}}
+    span  years old.
+    div(style='margin-left: 10px;')  
+      label(for='age') Age:
+        input#age(type='range',value='{{age}}')
+    div(style='margin-left: 10px;')  
+      label(for='name') Name:
+        input#name(type='text',value='{{name}}',placeholder='First name').form-control
+  script.
+    Polymer({
+      age: 25,
+      name: 'Daniel',
+      nameChanged: function nameChanged() {
+        var self = this;
+        if (self.name) {
+          // Ensure name is capitalized
+          self.name = self.name[0].toUpperCase() + self.name.slice(1);
+        }
+      }
+    });
+    

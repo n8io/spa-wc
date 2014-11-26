@@ -1,0 +1,13 @@
+polymer-element(name='fav-color')
+  template
+    span I'm a
+    b  fav-color
+    span  element.
+    span  {{owner}} likes the color:
+    span(style='color: {{color}}')  {{color}}
+  script.
+    Polymer({
+      owner: 'Daniel',
+      color: 'orange'
+    });
+    

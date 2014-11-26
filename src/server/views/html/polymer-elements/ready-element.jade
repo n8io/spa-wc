@@ -1,0 +1,16 @@
+polymer-element(name='ready-element')
+  template
+    span This
+    b  ready-element
+    span  has a ready() method.&nbsp;
+    span#el Not ready...
+  script.
+    Polymer({
+      owner: 'Nate',
+      ready: function ready(){
+        var self = this;
+        
+        self.$.el.textContent = self.owner + ' is ready!';
+      }
+    });
+    
