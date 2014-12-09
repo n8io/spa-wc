@@ -5,6 +5,8 @@ A simple single page app using Angular and Polymer.
 
 1. `npm install`
 
+If you want expanded (unmin'd) resources: `grunt dev`
+
 ### To run:
 2. `node src/server/app.js`
 
