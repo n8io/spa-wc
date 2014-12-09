@@ -1,12 +1,15 @@
 # spa-wc
-## An example single page app with Angular and Polymer web components
+A simple single page app using Angular and Polymer.
 
 ### To build:
 
-Run `grunt dev` for expanded or `grunt` for min'd resources
+1. `npm install`
+
+### To run:
+2. `node src/server/app.js`
 
 
-### Grunt process explained
+### What is grunt doing?
 1.  Remove old output
 2.  Compile Jade to Html in output
 3.  Copy statics to output ./statics dir
@@ -24,3 +27,4 @@ Run `grunt dev` for expanded or `grunt` for min'd resources
 15. Uglify polymer js
 16. Prettify markup in output html
 17. Remove extra angular js and polymer html
+
