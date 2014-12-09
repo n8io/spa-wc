@@ -6,7 +6,6 @@ var app = express();
 app.use(statics(path.join(__dirname, '../client'), {index:false}));
 
 app.get('*', function(req, res, next){
-  console.log('req.is("html")', req.is('html'));
   if(!req.accepts('html')) { 
     return next();
   }
