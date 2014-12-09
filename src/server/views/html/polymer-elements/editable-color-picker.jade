@@ -8,7 +8,7 @@ polymer-element(name='editable-color-picker',attributes='owner color')
     span(style='color: {{color}}')  {{color}}.
     div
       a(href='javascript:;',on-click='{{setFocus}}') Set focus to the text input
-    div
+    div(style='margin: 5px 0 5px 5px;')
       input#name(value='{{owner}}',placeholder='Your name here...')
   script.
     Polymer({
@@ -17,6 +17,6 @@ polymer-element(name='editable-color-picker',attributes='owner color')
       setFocus: function setFocus(){
         var self = this;
         
-        this.$.name.focus();
+        self.$.name.focus();
       }
     });

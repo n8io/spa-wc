@@ -8,7 +8,7 @@ polymer-element(name='age-slider')
     span  years old.
     div(style='margin-left: 10px;')  
       label(for='age') Age:
-        input#age(type='range',value='{{age}}')
+        input#age(type='range',value='{{age}}',min='1',max='120')
     div(style='margin-left: 10px;')  
       label(for='name') Name:
         input#name(type='text',value='{{name}}',placeholder='First name').form-control

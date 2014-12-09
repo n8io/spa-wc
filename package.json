@@ -39,6 +39,7 @@
     "bower": "^1.3.12",
     "compression": "^1.2.1",
     "express": "^4.10.3",
+    "grunt-prettify": "^0.4.0",
     "serve-favicon": "^2.1.7",
     "serve-static": "^1.7.1"
   }
